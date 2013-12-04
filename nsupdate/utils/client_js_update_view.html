@@ -25,7 +25,7 @@ function checkIP(data)
     	if(oldIP == '') // Has client IP yet?
 		{
 			oldIP = data.responseText;
-			var IPRequest = $.ajax({
+			var UpdateRequest = $.ajax({
 				url:"https://nsupdate.info/nic/update",
 				username: "", //Put FQDN here
 				password: "" //Put secret here
@@ -37,7 +37,7 @@ function checkIP(data)
 			//Do the request to update the IP at the host
 			if(oldIP != newIP) // Has IP changed?
 			{
-				var IPRequest = $.ajax({
+				var UpdateRequest = $.ajax({
 					url:"https://nsupdate.info/nic/update",
 					username: "", //Put FQDN here
 					password: "" //Put secret here
