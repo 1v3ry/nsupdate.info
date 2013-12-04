@@ -1,0 +1,57 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type='text/javascript'>
+//Global Vars
+var oldIP;
+var newIP;
+
+function update_ns() 
+{
+
+	//Do the request to get Clients IP from the host	
+var IPRequest = $.ajax({
+			url:"https://nsupdate.info/myip",
+			complete: checkIP
+		});
+
+	setTimeout('update_ns', 300000);
+}
+
+function checkIP(data)
+{
+		// Recieve IP from host
+		document.getElementById('ip').innerHTML = data.responseText;
+    	if(oldIP == '') // Has client IP yet?
+		{
+			oldIP = data.responseText;
+			var IPRequest = $.ajax({
+				url:"https://nsupdate.info/nic/update",
+				username: "", //Put FQDN here
+				password: "" //Put secret here
+			});
+		}
+		else
+		{
+			newIP = data.responseText;
+			//Do the request to update the IP at the host
+			if(oldIP != newIP) // Has IP changed?
+			{
+				var IPRequest = $.ajax({
+					url:"https://nsupdate.info/nic/update",
+					username: "", //Put FQDN here
+					password: "" //Put secret here
+				});
+				oldIP == newIP; //Remeber the new ID
+			}
+		}
+}
+
+update_ns();
+</script>
+</head>
+<body>
+Keep this site open to update your DNS-entries.<br/>
+Your current IP adress is <span id='ip'>None</span>.
+</bod>
+</html>
